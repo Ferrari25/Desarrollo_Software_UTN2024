@@ -1,22 +1,28 @@
-var btnCargar = document.getElementById('cargar')
 
-function cargarContenidoAjax(){
-    //crear nuestro xmlhttprequest
-    var xhr = new XMLHttpRequest
+//FUNCION PARA VERIFICAR EL TIPO DE NAVEGADOR QUE UTILIZAMOS PARA PODER CREAR UNA PETICION DE AJAX
+function ejecutarAjax(){
+    // var ajaxRequest;
+    // if(window.XMLHttpRequest){
+    //     ajaxRequest = new XMLHttpRequest();
+    // }else{
+    //     new ActiveXObject("microsoft.XMLHTTP");
+    // }
 
-    //abrimos la conexion
-    xhr.open("GET","prueba.txt",true);
-    xhr.onreadystatechange = function(){
-        console.log(xhr.readyState)
-        if(xhr.readyState == 4 && xhr.status == 200){ 
-            //4 para verificar que sea correcta y 200 para verificar que tengamos una respuesta
-            console.log("se cargo correctamente");
+    //si ajaxRequest.onreadystatechange == 0 --> no ha sido inicializada
+    //si ajaxRequest.onreadystatechange == 1 --> ha sido establecida
+    //si ajaxRequest.onreadystatechange == 2 --> ha sido enviada
+    //si ajaxRequest.onreadystatechange == 3 --> esta siendo procesada
+    //si ajaxRequest.onreadystatechange == 4 --> ha sido finalizada
+
+    //si ajaxRequest.status == 200  --> fue exitosa
+    var ajaxRequest = new XMLHttpRequest();
+    ajaxRequest.onreadystatechange=function(){
+        if(ajaxRequest.readyState == 4 && ajaxRequest.status == 200){
+            document.getElementById("info").innerHTML = ajaxRequest.responseText;
         }
     }
 
-    xhr.send();
+    ajaxRequest.open("GET","documento.txt",true); //peticion asincrona --> la patnall no sera recargada
+    ajaxRequest.send();
 
-    alert("funciona");
 }
-
-btnCargar.addEventListener('click',cargarContenidoAjax);
